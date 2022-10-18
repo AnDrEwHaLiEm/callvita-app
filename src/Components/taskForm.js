@@ -56,13 +56,7 @@ export default function TaskForm({
                             }}
                         >
                             {children}
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    gridTemplateColumns: " auto auto auto auto",
-                                }}
-                            >
+                            <div style={{ alignItems: "center" }}>
                                 {inputsProps.map(({ id, label, type, options }) =>
                                 (
                                     <TextField
@@ -70,7 +64,12 @@ export default function TaskForm({
                                         helperText={touched[id] && errors[id]}
                                         size="small"
                                         margin="normal"
-                                        style={{ marginBottom: "15%" }}
+                                        style={{
+                                            marginLeft:"40%",
+                                            alignItems: "center",
+                                            marginBottom: "5%",
+                                            display: "block"
+                                        }}
                                         type={type}
                                         id={id}
                                         label={label}
@@ -90,7 +89,7 @@ export default function TaskForm({
                                     type="submit"
                                     color="primary"
                                     style={{
-                                        marginTop: 50,
+                                        marginTop: "5%",
                                         margin: "auto",
                                         display: "block"
                                     }}

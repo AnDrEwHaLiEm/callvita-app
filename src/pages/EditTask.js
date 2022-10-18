@@ -9,13 +9,6 @@ import { taskAPIs } from '../API/axiosSetup';
 import CircularIndeterminate from "../Components/CircularIndeterminate";
 const inputs = [
     {
-        id: 'id',
-        validation: Yup.string().min(1).max(30).required('ID is required'),
-        initialValue: '',
-        label: 'ID ',
-        type: 'text'
-    },
-    {
         id: 'title',
         validation: Yup.string().min(2).max(30).required('Title is required'),
         initialValue: '',
@@ -55,13 +48,13 @@ export default function EditTask() {
                 dispatch(showAlert(err.message, "error"));
                 setErr(true);
             });
-    }, inputsData);
+    }, []);
 
     const handleUpdate = async (values, { resetForm }) => {
         await taskAPIs
             .put(`/task/edit/${id}`, values)
             .then((res) => {
-                dispatch(showAlert("this company is updated successfully", "success"));
+                dispatch(showAlert("updated successfully", "success"));
             })
             .catch((err) => {
                 dispatch(showAlert(err.message, "error"));
@@ -75,8 +68,8 @@ export default function EditTask() {
             <TaskForm
                 handleSubmit={handleUpdate}
                 inputsProps={inputsData}
-                title="Edit company "
-                submitLabel="Edit company"
+                title="Edit task "
+                submitLabel="Edit task"
             /> : <CircularIndeterminate />)
         : <>Not Found</>
 

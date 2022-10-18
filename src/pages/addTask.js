@@ -35,7 +35,7 @@ export default function AddTask() {
     const handleSubmit = async (values, { resetForm }) => {
         const { id, description, title } = values;
         taskAPIs.post('/task/create', { id, title, description }).then((res) => {
-            dispatch(showAlert("this company is add successfully", "success"));
+            dispatch(showAlert("Add successfully", "success"));
             resetForm();
         }).catch((error) => {
             dispatch(showAlert("Error When Create Task", "error"));
