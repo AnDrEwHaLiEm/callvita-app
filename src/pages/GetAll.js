@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { taskAPIs } from '../API/axiosSetup';
 import { Alert } from '@mui/material';
 import CircularIndeterminate from '../Components/CircularIndeterminate';
@@ -8,32 +8,34 @@ import { useDispatch } from "react-redux";
 
 export default function GetAll() {
     const dispatch = useDispatch();
-    const [tasks, setTasks] = useState();
+    const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState();
-    const getData = () => {
+
+    useEffect(() => {
         taskAPIs.get("/task/getMany").then((res) => {
             const taskDataInfo = [...res.data];
             setTasks(taskDataInfo);
             setLoading(true);
         }).catch((err) => {
-            dispatch(showAlert(err.message, "error"));
-            setError(err.message);
+            dispatch(showAlert(err.response.data, "error"));
+            setError(err.response.data);
             setLoading(true);
         });
-    };
-    getData();
-    const handleDelete = (_id) => {
+    },);
+
+    const handleDelete = (_id, index) => {
         taskAPIs.delete(`/task/delete/${_id}`).then((res) => {
             dispatch(showAlert("Deleted", "success"));
-            window.location.reload();
+            const task2 = [...tasks];
+            task2.splice(index, 1);
+            setTasks([...task2]);
         }).catch((err) => {
-            dispatch(showAlert(err.message, "error"));
+            dispatch(showAlert(err.response.data, "error"));
         });
-        getData();
     }
 
-    return (loading === true ?
+    return (loading ?
         error ?
             <Alert severity="error">
                 {error}— <strong>check it out!</strong>

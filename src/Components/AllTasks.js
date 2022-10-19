@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState } from 'react';
 
 import {
     Card,
@@ -17,7 +16,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function AllTask({ TaskData, Title, handleDelete }) {
-    const [tasks, setTasks] = useState(TaskData)
     return (
         <Grid
             container
@@ -38,7 +36,7 @@ export default function AllTask({ TaskData, Title, handleDelete }) {
         >
             <h2>{Title}</h2>
             {
-                tasks.map((element, index) => (
+                TaskData.map((element, index) => (
                     <Card elevation={1} style={{ marginTop: "4%" }} key={element.id}>
                         <CardContent>
                             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -65,7 +63,7 @@ export default function AllTask({ TaskData, Title, handleDelete }) {
                                         <EditIcon />
                                     </IconButton>
                                     <IconButton
-                                        onClick={() => handleDelete(element.id)}
+                                        onClick={() => handleDelete(element.id, index)}
                                         color="secondary"
                                         aria-label="settings"
                                     >

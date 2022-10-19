@@ -1,6 +1,7 @@
 import * as Yup from "yup";
 import { useParams } from "react-router";
 import React from 'react';
+import { Alert } from '@mui/material';
 import { useEffect, useState } from "react";
 import { showAlert } from "../Redux/actions/viewAlert";
 import { useDispatch } from "react-redux";
@@ -45,10 +46,10 @@ export default function EditTask() {
                 setInputsData([...inputs]);
             })
             .catch((err) => {
-                dispatch(showAlert(err.message, "error"));
-                setErr(true);
+                dispatch(showAlert(err.response.data, "error"));
+                setErr(err.response.data);
             });
-    }, []);
+    });
 
     const handleUpdate = async (values, { resetForm }) => {
         await taskAPIs
@@ -57,7 +58,7 @@ export default function EditTask() {
                 dispatch(showAlert("updated successfully", "success"));
             })
             .catch((err) => {
-                dispatch(showAlert(err.message, "error"));
+                dispatch(showAlert(err.response.data, "error"));
             });
     };
 
@@ -71,7 +72,9 @@ export default function EditTask() {
                 title="Edit task "
                 submitLabel="Edit task"
             /> : <CircularIndeterminate />)
-        : <>Not Found</>
+        : <Alert severity="error">
+            {err}— <strong>check it out!</strong>
+        </Alert>
 
     );
 }

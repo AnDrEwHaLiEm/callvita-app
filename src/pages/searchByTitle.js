@@ -12,38 +12,34 @@ export default function SearchByTitle() {
     const [tasks, setTasks] = useState();
     const [loading, setLoading] = useState(3);
     const [error, setError] = useState();
-    const [title, setTitle] = useState();
 
 
-    const getTasks = async () => {
-        if (title) {
-            await taskAPIs.get(`/task/get/title/${title}`).then((res) => {
-                const taskDataInfo = res.data;
-                setTasks(taskDataInfo);
-                setLoading(1);
-                setError();
-            }).catch((err) => {
-                dispatch(showAlert(err.message, "error"));
-                setError(err.message);
-                setLoading(1);
-            });
-        }
-    }
+
     const handleSubmit = async (e) => {
         const inputTitle = e.target[0].value;
         setLoading(2);
-        setTitle(inputTitle);
+        await taskAPIs.get(`/task/get/title/${inputTitle}`).then((res) => {
+            const taskDataInfo = res.data;
+            setTasks([...taskDataInfo]);
+            setLoading(1);
+            setError();
+        }).catch((err) => {
+            console.log(err);
+            dispatch(showAlert(err.response.data, "error"));
+            setError(err.response.data);
+            setLoading(1);
+        });
     }
-    if (loading === 2)
-        getTasks();
-    const handleDelete = (_id) => {
-        setLoading(2);
+
+    const handleDelete = (_id, index) => {
         taskAPIs.delete(`/task/delete/${_id}`).then((res) => {
             dispatch(showAlert("Deleted", "success"));
+            const task2 = [...tasks];
+            task2.splice(index, 1);
+            setTasks([...task2]);
         }).catch((err) => {
-            dispatch(showAlert(err.message, "error"));
+            dispatch(showAlert(err.response.datata, "error"));
         })
-        getTasks();
     }
 
     return (

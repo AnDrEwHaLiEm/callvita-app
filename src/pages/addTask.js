@@ -38,8 +38,7 @@ export default function AddTask() {
             dispatch(showAlert("Add successfully", "success"));
             resetForm();
         }).catch((error) => {
-            dispatch(showAlert("Error When Create Task", "error"));
-            console.log(error);
+            dispatch(showAlert(error.response.data, "error"));
         });
     };
 
