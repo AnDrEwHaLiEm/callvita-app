@@ -21,7 +21,7 @@ const inputs = [
     },
     {
         id: 'description',
-        validation: Yup.string().min(7).max(30).required('description is required'),
+        validation: Yup.string().min(7).max(200).required('description is required'),
         initialValue: '',
         label: 'description ',
         type: 'text'
